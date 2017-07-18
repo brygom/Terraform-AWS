@@ -1,0 +1,77 @@
+##
+# Ansible playbook to setup PostgreSQL server.
+#
+# This installs PostgreSQL on an Ubuntu system, creates a database called
+# "pex_db" and 3 user called "test""24223""parabola" with password
+# with access to the "pex_db" database.
+#
+---
+- hosts: localhost
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: ensure apt cache is up to date
+    apt: update_cache=yes
+  - name: ensure packages are installed
+    apt: name={{item}}
+    with_items:
+        - postgresql-9.5
+        - libpq-dev
+        - python-psycopg2
+      
+  - name: Ensure the PostgreSQL service is running 
+    service: name=postgresql state=started enabled=yes  
+  - lineinfile:
+      dest: /etc/postgresql/9.5/main/postgresql.conf
+      regexp: '^port '
+      insertafter: '^#port '
+      line: 'port = 9988'
+  - name: Here we restart postgresql(Check)
+    service: name=postgresql state=restarted enabled=yes
+
+- hosts: localhost
+  become: yes
+  become_user: postgres
+  gather_facts: no
+
+
+  vars:
+    dbname: pex_db
+    dbuser1: test
+    dbuser2: "24223"
+    dbuser3: parabola
+    dbpassword : pex_test
+
+  tasks: 
+  - name: ensure database is created
+    postgresql_db: name={{dbname}} port=9988
+  - name: pause for changing ownership to restart
+    pause: seconds=2
+    notify: restart postgresql
+  - name: pause for specified timeout
+    pause: seconds=5 
+  - name: ensure user1 has access to database
+    postgresql_user: db={{dbname}} name={{dbuser1}} password={{dbpassword}} port=9988 priv=ALL
+  - name: ensure user2 has access to database
+    postgresql_user: db={{dbname}} name={{dbuser2}} password={{dbpassword}} port=9988 priv=ALL
+  - name: ensure user3 has access to database
+    postgresql_user: db={{dbname}} name={{dbuser3}} password={{dbpassword}} port=9988 priv=ALL
+
+  - name: ensure user does not have unnecessary privilege
+    postgresql_user: name={{dbuser1}} role_attr_flags=NOSUPERUSER,NOCREATEDB port=9988
+
+  - name: ensure user does not have unnecessary privilege
+    postgresql_user: name={{dbuser2}} role_attr_flags=NOSUPERUSER,NOCREATEDB port=9988
+
+  - name: ensure user does not have unnecessary privilege
+    postgresql_user: name={{dbuser3}} role_attr_flags=NOSUPERUSER,NOCREATEDB port=9988
+  
+  - name: ensure no other user can access the database
+    postgresql_privs: db={{dbname}} role=PUBLIC type=database priv=ALL state=absent port=9988
+
+  handlers:
+   - name: restart postgresql
+     service: name=postgresql state=restarted
+     become: yes
+     become_user: sudo
