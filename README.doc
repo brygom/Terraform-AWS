@@ -20,6 +20,7 @@ File information:
         •	Security groups to configure for bastion host
         •	Security groups to configure for private instances
         •	Resource to build postgresql private instances
+  4: access.tfvars: Terraform configuration file to contain AWS_ACCESS_KEY and AWS_SECRET_KEY
         
 Required installations:
   1. Packer
@@ -42,4 +43,5 @@ Required installations:
         •	Ssh-add –K yourpemfile.pem
         •	Ssh –A Ubuntu@Bastion IP
         •	Ssh Ubuntu@instance_private IP
+        
 
