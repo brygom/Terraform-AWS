@@ -3,7 +3,7 @@ Multi-tier architecture postgreSQL deployment on AWS using ansible, packer and t
 
 Base OS AMI : Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-835b4efa
 File information:
-	1: ansible.yml: Ansible script to 
+  1: ansible.yml: Ansible script to 
         •	install postgresql-9.5
         •	Change listening port to 9988
         •	Create database: pex_db
@@ -27,7 +27,7 @@ Required installations:
         •	Unzip and mv /usr/local
         •	Set linux environment path
         •	Packer validate template.json # To validate the template
-            o	https://jsonlint.com/ to validate the json format.
+             		o https://jsonlint.com/ to validate the json format.
         •	Packer build template.json (Executes ansible and builds an AMI stored in AWS account-AMI’s owned by me)
   2. Terraform
         •	Wget https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip
