@@ -3,7 +3,7 @@
 #
 # This installs PostgreSQL on an Ubuntu system, creates a database called
 # "pex_db" and 3 user called "test""24223""parabola" with password
-# with access to the "pex_db" database.
+# with access to the "pex_db" database on port 9988.
 #
 ---
 - hosts: localhost
@@ -41,7 +41,7 @@
     dbuser1: test
     dbuser2: "24223"
     dbuser3: parabola
-    dbpassword : pex_test
+    dbpassword : *****
 
   tasks: 
   - name: ensure database is created
