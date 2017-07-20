@@ -6,8 +6,8 @@ File information:
   1: ansible.yml: Ansible script to 
         •	install postgresql-9.5
         •	Change listening port to 9988
-        •	Create database: pex_db
-        •	Create 3 users “test” “24223” “parabola”
+        •	Create database
+        •	Create 3 users
   2: template.json: Packer template to
         •	Install python2.7
         •	Install ansible2.0
