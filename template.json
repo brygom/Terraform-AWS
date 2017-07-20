@@ -14,7 +14,7 @@
    "source_ami": "ami-835b4efa",
    "instance_type": "t2.micro",
    "ssh_username": "ubuntu",
-   "ami_name": "pex {{timestamp}}"
+   "ami_name": "postgres {{timestamp}}"
 }],
 
  "provisioners": [{
