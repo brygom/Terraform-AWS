@@ -2,8 +2,8 @@
 # Ansible playbook to setup PostgreSQL server.
 #
 # This installs PostgreSQL on an Ubuntu system, creates a database called
-# "pex_db" and 3 user called "test""24223""parabola" with password
-# with access to the "pex_db" database on port 9988.
+# "postgres_db" and 3 user called "test""24223""parabola" with password
+# with access to the "postgres_db" database on port 9988.
 #
 ---
 - hosts: localhost
@@ -37,7 +37,7 @@
 
 
   vars:
-    dbname: pex_db
+    dbname: postgres_db
     dbuser1: test
     dbuser2: "24223"
     dbuser3: parabola
