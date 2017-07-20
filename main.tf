@@ -13,7 +13,7 @@ resource "aws_key_pair" "<your_key_name>" {
   public_key = "<your_public_key>"}
 module "vpc" {
   source             = "github.com/segmentio/stack//vpc"
-  name               = "pex_vpc"
+  name               = "your_vpc"
   environment        = "staging"
   cidr               = "10.30.0.0/16"
   internal_subnets   = ["10.30.0.0/24"]
@@ -54,7 +54,7 @@ resource "aws_security_group" "bastion" {
 
 resource "aws_instance" "pg" {
   count = "10"
-  ami      = "ami-dbf1eea2" #AMI_ID of the packer created image
+  ami      = "ami-***" #AMI_ID of the packer created image
   key_name = "${aws_key_pair.<your_key_name>.key_name}"
   instance_type = "t2.micro"
   subnet_id                   = "${module.vpc.internal_subnets[0]}"
